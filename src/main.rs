@@ -1,4 +1,5 @@
 use gpui::*;
+use gpui_component::{Root, TitleBar};
 
 use crate::components::clock::Clock;
 
@@ -34,15 +35,16 @@ impl Render for Clokew {
 
 fn main() {
     Application::new().run(|cx: &mut App| {
-        let bounds = Bounds::centered(None, size(px(320.), px(320.)), cx);
+        gpui_component::init(cx);
+
+        let bounds = Bounds::centered(None, size(px(280.), px(280.)), cx);
         let window_options = WindowOptions {
-            titlebar: Some(TitlebarOptions {
-                ..Default::default()
-            }),
+            titlebar: Some(TitleBar::title_bar_options()),
             window_bounds: Some(WindowBounds::Windowed(bounds)),
             is_resizable: false,
             ..Default::default()
         };
+
         cx.activate(true);
         cx.on_window_closed(|app| {
             if app.windows().is_empty() {
@@ -51,7 +53,10 @@ fn main() {
         })
         .detach();
         cx.spawn(async move |cx| -> anyhow::Result<()> {
-            cx.open_window(window_options, |_, cx| cx.new(|cx| Clokew::new(cx)))?;
+            cx.open_window(window_options, |window, cx| {
+                let view = cx.new(|cx| Clokew::new(cx));
+                cx.new(|cx| Root::new(view, window, cx))
+            })?;
             Ok(())
         })
         .detach();

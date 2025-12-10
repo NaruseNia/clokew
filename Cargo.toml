@@ -7,6 +7,7 @@ edition = "2021"
 anyhow = "1.0.100"
 chrono = "0.4.42"
 gpui = "0.2.2"
+gpui-component = "0.5.0"
 # smallvec is included here for convenience, it is used by gpui when creating
 # components that can have children. uncomment this line or
 # use `cargo add smallvec` to add it to your project
