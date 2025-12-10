@@ -24,7 +24,7 @@ impl Render for HelloWorld {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
-            .bg(rgb(0x181816))
+            .bg(rgb(0x141414))
             .size_full()
             .justify_center()
             .items_center()
