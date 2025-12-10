@@ -4,11 +4,11 @@ use crate::components::clock::Clock;
 
 mod components;
 
-struct HelloWorld {
+struct Clokew {
     clock: Entity<Clock>,
 }
 
-impl HelloWorld {
+impl Clokew {
     fn new(cx: &mut Context<Self>) -> Self {
         let clock = cx.new(|_| Clock::new());
 
@@ -20,7 +20,7 @@ impl HelloWorld {
     }
 }
 
-impl Render for HelloWorld {
+impl Render for Clokew {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
@@ -51,7 +51,7 @@ fn main() {
         })
         .detach();
         cx.spawn(async move |cx| -> anyhow::Result<()> {
-            cx.open_window(window_options, |_, cx| cx.new(|cx| HelloWorld::new(cx)))?;
+            cx.open_window(window_options, |_, cx| cx.new(|cx| Clokew::new(cx)))?;
             Ok(())
         })
         .detach();
