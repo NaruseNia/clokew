@@ -6,6 +6,8 @@ edition = "2021"
 [package.metadata.bundle]
 name = "clokew"
 identifier = "one.nxeu.clokew"
+icon = ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png"]
+version = "0.1.0"
 
 [dependencies]
 anyhow = "1.0.100"
