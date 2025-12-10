@@ -1,32 +1,49 @@
 use gpui::*;
 
+use crate::components::clock::Clock;
+
+mod components;
+
 struct HelloWorld {
-    text: SharedString,
+    clock: Entity<Clock>,
+}
+
+impl HelloWorld {
+    fn new(cx: &mut Context<Self>) -> Self {
+        let clock = cx.new(|_| Clock::new());
+
+        clock.update(cx, |ent, cx| {
+            ent.start(cx);
+        });
+
+        Self { clock }
+    }
 }
 
 impl Render for HelloWorld {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
-            .bg(rgb(0x2e7d32))
+            .bg(rgb(0x181816))
             .size_full()
             .justify_center()
             .items_center()
-            .text_xl()
-            .text_color(rgb(0xffffff))
-            .child(format!("Hello, {}!", &self.text))
+            .child(self.clock.clone())
     }
 }
 
 fn main() {
-    let window_options = WindowOptions {
-        titlebar: Some(TitlebarOptions {
-            ..Default::default()
-        }),
-        ..Default::default()
-    };
-
     Application::new().run(|cx: &mut App| {
+        let bounds = Bounds::centered(None, size(px(320.), px(320.)), cx);
+        let window_options = WindowOptions {
+            titlebar: Some(TitlebarOptions {
+                ..Default::default()
+            }),
+            window_bounds: Some(WindowBounds::Windowed(bounds)),
+            is_resizable: false,
+            ..Default::default()
+        };
+        cx.activate(true);
         cx.on_window_closed(|app| {
             if app.windows().is_empty() {
                 app.quit();
@@ -34,11 +51,7 @@ fn main() {
         })
         .detach();
         cx.spawn(async move |cx| -> anyhow::Result<()> {
-            cx.open_window(window_options, |_, cx| {
-                cx.new(|_cx| HelloWorld {
-                    text: "World".into(),
-                })
-            })?;
+            cx.open_window(window_options, |_, cx| cx.new(|cx| HelloWorld::new(cx)))?;
             Ok(())
         })
         .detach();
