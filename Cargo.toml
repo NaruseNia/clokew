@@ -3,6 +3,10 @@ name = "clokew"
 version = "0.1.0"
 edition = "2021"
 
+[package.metadata.bundle]
+name = "clokew"
+identifier = "one.nxeu.clokew"
+
 [dependencies]
 anyhow = "1.0.100"
 chrono = "0.4.42"
