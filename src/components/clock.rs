@@ -1,16 +1,14 @@
 use chrono::{DateTime, Local};
 use std::time::{Duration, SystemTime};
 
-use gpui::{
-    div, px, rems, rgb, Context, IntoElement, ParentElement, Rems, Render, SharedString, Styled,
-    Task, Window,
-};
+use gpui::{div, px, rems, rgb, Context, IntoElement, ParentElement, Render, Styled, Task, Window};
 
 pub struct Clock {
     pub clock_task: Option<Task<()>>,
     pub current_time: Duration,
 }
 
+#[allow(dead_code)]
 impl Clock {
     pub fn new() -> Clock {
         Self {
